@@ -15,7 +15,8 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var playProgress: UISlider!
-
+    @IBOutlet weak var filesTable: UITableView!
+    
     let recordOnImage : UIImage? = UIImage(named: "rec_button_on")
     let recordImage : UIImage? = UIImage(named: "rec_button")
     
@@ -25,6 +26,8 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     var soundRecorder: AVAudioRecorder!
     var soundPlayer: AVAudioPlayer!
     var updater : CADisplayLink!
+    var isRecording : Bool = false
+    var filesRepository : FilesRepository = FilesRepository()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +43,10 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
         playButton.isHidden = false
 //        playButton.setImage(UIImage(named: "rec_button_on_selected"), forState: .Selected)
         
+        
+        filesTable.dataSource = filesRepository
+        filesTable.delegate = filesRepository
+        
     }
     
     func setupRecorder() {
@@ -53,6 +60,8 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
         ] as [String : Any]
         
         do {
+            let session = AVAudioSession.sharedInstance()
+            try!  session.setCategory(AVAudioSessionCategoryPlayAndRecord)
             soundRecorder = try AVAudioRecorder(url: SampleFile.getFileURL() as URL, settings: recordSettings)
             soundRecorder.delegate = self
             soundRecorder.prepareToRecord()
@@ -66,6 +75,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     func setupPlayer() {
         
         do {
+            
             soundPlayer = try AVAudioPlayer(contentsOf: SampleFile.getFileURL() as URL)
         
             soundPlayer.delegate = self
@@ -88,16 +98,15 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     
     
     func trackAudio() {
-        let currentTime = isRecording() ? Int(soundRecorder.currentTime) : Int(soundPlayer.currentTime)
+        let currentTime = isRecording ? Int(soundRecorder.currentTime) : Int(soundPlayer.currentTime)
 
         print(currentTime);
         
         let minutes = currentTime / 60;
         let seconds = currentTime % 60;
         
-        if isRecording() {
-            recordTime.text = String.init(format: "%d:%02d", minutes, seconds);
-        } else {
+        recordTime.text = String.init(format: "%d:%02d", minutes, seconds);
+        if !isRecording {
             let normalizedTime = Float(soundPlayer.currentTime * 100.0 / soundPlayer.duration)
             playProgress.value = normalizedTime
         }
@@ -119,23 +128,22 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     }
     
     func startRecord() {
-        recordButton.isSelected = !recordButton.isSelected
         
-        if isRecording() {
+        if !isRecording {
+            recordTime.textColor = UIColor.red
+            isRecording = true
             soundRecorder.record()
             updater.frameInterval = 20
             updater.isPaused = false
         } else {
             soundRecorder.stop()
+            isRecording = false
         }
-    }
-    
-    func isRecording() -> Bool {
-        return recordButton.isSelected
+        recordButton.isSelected = isRecording
     }
     
     @IBAction func onPlay(_ sender: AnyObject) {
-        if !isRecording() {
+        if !isRecording {
             playProgress.isHidden = false
             setupPlayer()
             playSample()
@@ -162,8 +170,8 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     //Mark audio delegates
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        recordTime.textColor = UIColor.black
         recordTime.text = "0:00"
-        recordTime.isHidden = true
         playProgress.value = 0
         playProgress.isHidden = false
         playButton.isHidden = false;

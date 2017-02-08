@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3799BBD61E4BBD040008EEBC /* FilesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3799BBD51E4BBD040008EEBC /* FilesRepository.swift */; };
 		37D10B1A1D6D5E30003BFDF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D10B191D6D5E30003BFDF2 /* AppDelegate.swift */; };
 		37D10B1C1D6D5E30003BFDF2 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D10B1B1D6D5E30003BFDF2 /* RecordViewController.swift */; };
 		37D10B1E1D6D5E30003BFDF2 /* PlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D10B1D1D6D5E30003BFDF2 /* PlayViewController.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3799BBD51E4BBD040008EEBC /* FilesRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesRepository.swift; sourceTree = "<group>"; };
 		37D10B161D6D5E30003BFDF2 /* SimpleSoundLoop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleSoundLoop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37D10B191D6D5E30003BFDF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37D10B1B1D6D5E30003BFDF2 /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				37D10B5B1D6E2673003BFDF2 /* SampleFile.swift */,
+				3799BBD51E4BBD040008EEBC /* FilesRepository.swift */,
 			);
 			name = SampleFile;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37D10B1E1D6D5E30003BFDF2 /* PlayViewController.swift in Sources */,
+				3799BBD61E4BBD040008EEBC /* FilesRepository.swift in Sources */,
 				37D10B5C1D6E2674003BFDF2 /* SampleFile.swift in Sources */,
 				37D10B1A1D6D5E30003BFDF2 /* AppDelegate.swift in Sources */,
 				37D10B1C1D6D5E30003BFDF2 /* RecordViewController.swift in Sources */,
