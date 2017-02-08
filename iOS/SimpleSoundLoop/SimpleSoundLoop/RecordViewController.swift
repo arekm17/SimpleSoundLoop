@@ -37,7 +37,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
     func initViews() {
 //        recordButton.setImage(UIImage(named: "rec_button_on_selected"), forState: UIControlState.Selected | UIControlState.Highlighted)
-        playButton.hidden = false
+        playButton.isHidden = false
 //        playButton.setImage(UIImage(named: "rec_button_on_selected"), forState: .Selected)
         
     }
@@ -45,15 +45,15 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     func setupRecorder() {
         
         let recordSettings = [
-            AVFormatIDKey: NSNumber(int: Int32(kAudioFormatAppleLossless)),
-            AVEncoderAudioQualityKey : AVAudioQuality.Max.rawValue,
+            AVFormatIDKey: NSNumber(value: Int32(kAudioFormatAppleLossless) as Int32),
+            AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue,
             AVEncoderBitRateKey : 320000,
             AVNumberOfChannelsKey: 2,
             AVSampleRateKey : 44100.0
-        ]
+        ] as [String : Any]
         
         do {
-            soundRecorder = try AVAudioRecorder(URL: SampleFile.getFileURL(), settings: recordSettings)
+            soundRecorder = try AVAudioRecorder(url: SampleFile.getFileURL() as URL, settings: recordSettings)
             soundRecorder.delegate = self
             soundRecorder.prepareToRecord()
 
@@ -66,7 +66,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     func setupPlayer() {
         
         do {
-            soundPlayer = try AVAudioPlayer(contentsOfURL: SampleFile.getFileURL())
+            soundPlayer = try AVAudioPlayer(contentsOf: SampleFile.getFileURL() as URL)
         
             soundPlayer.delegate = self
             let ok = soundPlayer.prepareToPlay()
@@ -81,8 +81,8 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     
     func initUpdater() {
         updater = CADisplayLink(target: self, selector: #selector(trackAudio))
-        updater.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
-        updater.paused = true;
+        updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
+        updater.isPaused = true;
         
     }
     
@@ -105,7 +105,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     }
 
 
-    @IBAction func onRecordStart(sender: AnyObject) {
+    @IBAction func onRecordStart(_ sender: AnyObject) {
         
 //        if !isRecording {
 //            recordTime.text = "0:00"
@@ -119,36 +119,36 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     }
     
     func startRecord() {
-        recordButton.selected = !recordButton.selected
+        recordButton.isSelected = !recordButton.isSelected
         
         if isRecording() {
             soundRecorder.record()
             updater.frameInterval = 20
-            updater.paused = false
+            updater.isPaused = false
         } else {
             soundRecorder.stop()
         }
     }
     
     func isRecording() -> Bool {
-        return recordButton.selected
+        return recordButton.isSelected
     }
     
-    @IBAction func onPlay(sender: AnyObject) {
+    @IBAction func onPlay(_ sender: AnyObject) {
         if !isRecording() {
-            playProgress.hidden = false
+            playProgress.isHidden = false
             setupPlayer()
             playSample()
         }
     }
 
     func playSample() {
-        playButton.selected = !playButton.selected
+        playButton.isSelected = !playButton.isSelected
         
         if isPlaying() {
             soundPlayer.play()
             updater.frameInterval = 1
-            updater.paused = false
+            updater.isPaused = false
         }
         else {
             soundPlayer.stop()
@@ -156,35 +156,35 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     }
     
     func isPlaying() -> Bool {
-        return playButton.selected
+        return playButton.isSelected
     }
     
     //Mark audio delegates
     
-    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
+    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         recordTime.text = "0:00"
-        recordTime.hidden = true
+        recordTime.isHidden = true
         playProgress.value = 0
-        playProgress.hidden = false
-        playButton.hidden = false;
-        updater.paused = true
+        playProgress.isHidden = false
+        playButton.isHidden = false;
+        updater.isPaused = true
     }
     
-    func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
+    func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
         //handle error
         print(error)
-        updater.paused = true
+        updater.isPaused = true
     }
     
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         recordTime.text = "0:00";
-        updater.paused = true
+        updater.isPaused = true
     }
     
-    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
+    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
         //handle error
         print(error)
-        updater.paused = true
+        updater.isPaused = true
     }
     
     

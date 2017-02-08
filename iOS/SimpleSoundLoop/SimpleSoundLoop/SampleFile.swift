@@ -10,19 +10,19 @@ import Foundation
 
 struct SampleFile {
 
-    private static let sampleDefaultFileName = "sample.caf"
+    fileprivate static let sampleDefaultFileName = "sample.caf"
     
     
-    private static func getCacheDirectory() -> String {
+    fileprivate static func getCacheDirectory() -> String {
         
-        let paths = NSSearchPathForDirectoriesInDomains(.CachesDirectory,.UserDomainMask, true) as [String]
+        let paths = NSSearchPathForDirectoriesInDomains(.cachesDirectory,.userDomainMask, true) as [String]
         
         return paths[0]
     }
     
-    static func getFileURL() -> NSURL {
+    static func getFileURL() -> URL {
         
-        let path = NSURL(fileURLWithPath: getCacheDirectory()).URLByAppendingPathComponent(sampleDefaultFileName)
+        let path = URL(fileURLWithPath: getCacheDirectory()).appendingPathComponent(sampleDefaultFileName)
         
         return path
     }
