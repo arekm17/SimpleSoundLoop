@@ -36,6 +36,10 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
         
         setupRecorder()
         initUpdater();
+        
+        let files = FilesRepository.files
+        print(files)
+        
     }
 
     func initViews() {
@@ -98,7 +102,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     
     
     func trackAudio() {
-        let currentTime = isRecording ? Int(soundRecorder.currentTime) : Int(soundPlayer.currentTime)
+        let currentTime = isRecording ? Int(soundRecorder.currentTime) : (isPlaying() ? Int(soundPlayer.currentTime) : 0)
 
         print(currentTime);
         
@@ -137,14 +141,16 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
             updater.isPaused = false
         } else {
             soundRecorder.stop()
+            updater.isPaused = true
             isRecording = false
         }
         recordButton.isSelected = isRecording
+        playButton.isHidden = isRecording
+        playProgress.isHidden = isRecording
     }
     
     @IBAction func onPlay(_ sender: AnyObject) {
         if !isRecording {
-            playProgress.isHidden = false
             setupPlayer()
             playSample()
         }
@@ -152,6 +158,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 
     func playSample() {
         playButton.isSelected = !playButton.isSelected
+        playProgress.isHidden = false
         
         if isPlaying() {
             soundPlayer.play()
@@ -160,7 +167,9 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
         }
         else {
             soundPlayer.stop()
+            updater.isPaused = true
         }
+        recordButton.isHidden = isPlaying()
     }
     
     func isPlaying() -> Bool {

@@ -10,18 +10,36 @@ import Foundation
 import UIKit
 
 
-class FilesRepository : NSObject, UITableViewDelegate, UITableViewDataSource {
+class FilesRepository : NSObject {
     
-    
-    
-    
+    static var files : [String] = [String]()
+    private static let fileDirectory : URL = SampleFile.getFilesDirectory()
 
+    class func updateFiles() {
+    
+        do {
+            let directoryContents = try FileManager.default.contentsOfDirectory(at: fileDirectory, includingPropertiesForKeys: nil, options: [])
+
+            files = directoryContents.filter(){$0.pathExtension == "caf"}.map {$0.lastPathComponent}
+        
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        
+        files = [String]()
+    }
+    
+    
+}
+
+extension FilesRepository : UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         var cell = tableView.dequeueReusableCell(withIdentifier: "CELL")
         
         if cell == nil {

@@ -22,10 +22,18 @@ struct SampleFile {
     
     static func getFileURL() -> URL {
         
-        let path = URL(fileURLWithPath: getCacheDirectory()).appendingPathComponent(sampleDefaultFileName)
+        let path = getFilesDirectory().appendingPathComponent(sampleDefaultFileName)
         
         return path
     }
+    
+    static func getFilesDirectory() -> URL {
+        
+        let path = URL(fileURLWithPath: getCacheDirectory())
+        
+        return path
+    }
+
     
 //    static func fileExists() -> Bool {
 //        let fileManager = NSFileManager.defaultManager()
