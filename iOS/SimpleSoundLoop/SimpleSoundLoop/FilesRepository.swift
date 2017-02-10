@@ -15,6 +15,10 @@ class FilesRepository : NSObject {
     static var files : [String] = [String]()
     private static let fileDirectory : URL = SampleFile.getFilesDirectory()
 
+    override class func initialize () {
+        updateFiles()
+    }
+    
     class func updateFiles() {
     
         do {
@@ -24,9 +28,9 @@ class FilesRepository : NSObject {
         
         } catch let error as NSError {
             print(error.localizedDescription)
+            files = [String]()
         }
         
-        files = [String]()
     }
     
     
@@ -35,7 +39,7 @@ class FilesRepository : NSObject {
 extension FilesRepository : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return FilesRepository.files.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -49,10 +53,8 @@ extension FilesRepository : UITableViewDelegate, UITableViewDataSource {
         // we know that cell is not empty now so we use ! to force unwrapping but you could also define cell as
         // let cell = (tableView.dequeue... as? UITableViewCell) ?? UITableViewCell(style: ...)
         
-        cell!.textLabel?.text = "Baking Soda"
-        cell!.detailTextLabel?.text = "1/2 cup"
-        
-        cell!.textLabel?.text = "Hello World"
+        cell!.textLabel?.text = FilesRepository.files[indexPath.row]
+//        cell!.detailTextLabel?.text = "1/2 cup"
         
         return cell!
     }

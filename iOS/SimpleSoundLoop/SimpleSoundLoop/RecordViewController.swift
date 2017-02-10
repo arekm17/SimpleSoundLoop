@@ -37,8 +37,12 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
         setupRecorder()
         initUpdater();
         
-        let files = FilesRepository.files
-        print(files)
+        initList()
+        
+    }
+    
+    func initList() {
+        
         
     }
 
