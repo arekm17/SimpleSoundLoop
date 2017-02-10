@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		37028B951E4E683E00928472 /* FilesRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37028B941E4E683E00928472 /* FilesRepositoryTests.swift */; };
+		37028B991E4E6B3F00928472 /* MockFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37028B981E4E6B3F00928472 /* MockFileManager.swift */; };
 		3799BBD61E4BBD040008EEBC /* FilesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3799BBD51E4BBD040008EEBC /* FilesRepository.swift */; };
 		37D10B1A1D6D5E30003BFDF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D10B191D6D5E30003BFDF2 /* AppDelegate.swift */; };
 		37D10B1C1D6D5E30003BFDF2 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D10B1B1D6D5E30003BFDF2 /* RecordViewController.swift */; };
@@ -38,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		37028B941E4E683E00928472 /* FilesRepositoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilesRepositoryTests.swift; path = SampleFile/FilesRepositoryTests.swift; sourceTree = "<group>"; };
+		37028B981E4E6B3F00928472 /* MockFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockFileManager.swift; path = Mocks/MockFileManager.swift; sourceTree = "<group>"; };
 		3799BBD51E4BBD040008EEBC /* FilesRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesRepository.swift; sourceTree = "<group>"; };
 		37D10B161D6D5E30003BFDF2 /* SimpleSoundLoop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleSoundLoop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37D10B191D6D5E30003BFDF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -82,6 +86,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		37028B961E4E6B1A00928472 /* SampleFile */ = {
+			isa = PBXGroup;
+			children = (
+				37028B941E4E683E00928472 /* FilesRepositoryTests.swift */,
+			);
+			name = SampleFile;
+			sourceTree = "<group>";
+		};
+		37028B971E4E6B2300928472 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				37028B981E4E6B3F00928472 /* MockFileManager.swift */,
+			);
+			name = Mocks;
+			sourceTree = "<group>";
+		};
 		37D10B0D1D6D5E30003BFDF2 = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +141,8 @@
 		37D10B2F1D6D5E30003BFDF2 /* SimpleSoundLoopTests */ = {
 			isa = PBXGroup;
 			children = (
+				37028B971E4E6B2300928472 /* Mocks */,
+				37028B961E4E6B1A00928472 /* SampleFile */,
 				37D10B301D6D5E30003BFDF2 /* SimpleSoundLoopTests.swift */,
 				37D10B321D6D5E30003BFDF2 /* Info.plist */,
 			);
@@ -302,6 +324,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				37D10B311D6D5E30003BFDF2 /* SimpleSoundLoopTests.swift in Sources */,
+				37028B951E4E683E00928472 /* FilesRepositoryTests.swift in Sources */,
+				37028B991E4E6B3F00928472 /* MockFileManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

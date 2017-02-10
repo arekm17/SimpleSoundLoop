@@ -147,10 +147,30 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
             soundRecorder.stop()
             updater.isPaused = true
             isRecording = false
+            showSaveSampleDialog()
         }
         recordButton.isSelected = isRecording
         playButton.isHidden = isRecording
         playProgress.isHidden = isRecording
+    }
+    
+    func showSaveSampleDialog() {
+        let alert = UIAlertController(title: nil, message: "Zapisać nagranie?", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: {(textField) in textField.text = self.filesRepository.getNewFileName() })
+        
+        let action = UIAlertAction(title: "Zapisz", style: .default, handler: {[weak alert] (_) in
+            let textField = alert?.textFields![0]
+
+            self.saveSample(withFileName: textField!.text!);
+        })
+        
+        alert.addAction(action);
+        
+    }
+    
+    
+    func saveSample(withFileName: String) {
+        
     }
     
     @IBAction func onPlay(_ sender: AnyObject) {
