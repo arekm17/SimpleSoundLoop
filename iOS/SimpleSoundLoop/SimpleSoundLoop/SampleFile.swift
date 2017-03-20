@@ -10,7 +10,7 @@ import Foundation
 
 struct SampleFile {
 
-    fileprivate static let sampleDefaultFileName = "sample.caf"
+    static let sampleDefaultFileName = "sample.caf"
     
     
     fileprivate static func getCacheDirectory() -> String {

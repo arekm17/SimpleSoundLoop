@@ -51,9 +51,8 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
         playButton.isHidden = false
 //        playButton.setImage(UIImage(named: "rec_button_on_selected"), forState: .Selected)
         
-        
-        filesTable.dataSource = filesRepository
-        filesTable.delegate = filesRepository
+        filesRepository.setTableView(tableView: filesTable)
+
         
     }
     
@@ -164,13 +163,20 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
             self.saveSample(withFileName: textField!.text!);
         })
         
+//        alert.textFields[0].onfo
+        
         alert.addAction(action);
         
+        let action2 = UIAlertAction(title: "Anuluj", style: .cancel, handler: nil)
+        alert.addAction(action2)
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     
     func saveSample(withFileName: String) {
-        
+        filesRepository.saveCurrentSample(withFileName: withFileName)
+        filesRepository.updateFiles();
     }
     
     @IBAction func onPlay(_ sender: AnyObject) {
