@@ -1,0 +1,26 @@
+PODS:
+  - RxAtomic (4.4.0)
+  - RxSwift (4.4.0):
+    - RxAtomic (~> 4.4)
+  - SnapKit (4.2.0)
+  - Sourcery (0.15.0)
+  - SwiftyMocky (3.0.0):
+    - SwiftyMocky/Core (= 3.0.0)
+  - SwiftyMocky/Core (3.0.0):
+    - Sourcery
+
+DEPENDENCIES:
+  - RxSwift
+  - SnapKit
+  - SwiftyMocky
+
+SPEC CHECKSUMS:
+  RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
+  RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
+  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+  Sourcery: 5895672cae353cdbfa95f3f4aaeb75a664d76f6a
+  SwiftyMocky: b3580655f96a5835a802bbfd8da9570cda0c285e
+
+PODFILE CHECKSUM: ae991e56c7939837bd70f235499095e55d19f2e9
+
+COCOAPODS: 1.4.0

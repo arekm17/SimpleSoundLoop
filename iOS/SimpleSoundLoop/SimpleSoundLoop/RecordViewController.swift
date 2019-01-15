@@ -16,6 +16,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var playProgress: UISlider!
     @IBOutlet weak var filesTable: UITableView!
+    @IBOutlet weak var metrumBtn: MetrumButton!
     
     let recordOnImage : UIImage? = UIImage(named: "rec_button_on")
     let recordImage : UIImage? = UIImage(named: "rec_button")
@@ -28,6 +29,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     var updater : CADisplayLink!
     var isRecording : Bool = false
     var filesRepository : FilesRepository = FilesRepository()
+    private var metronome: Metronome = MetronomeImpl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +70,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
         
         do {
             let session = AVAudioSession.sharedInstance()
-            try!  session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            try! session.setCategory(.playback, mode: .default)
             soundRecorder = try AVAudioRecorder(url: SampleFile.getFileURL() as URL, settings: recordSettings)
             soundRecorder.delegate = self
             soundRecorder.prepareToRecord()
@@ -83,8 +85,14 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
         
         do {
             
-            soundPlayer = try AVAudioPlayer(contentsOf: SampleFile.getFileURL() as URL)
-        
+//            soundPlayer = try AVAudioPlayer(contentsOf: SampleFile.getFileURL() as URL)
+            guard let url = Bundle.main.url(forResource: "sample", withExtension: "wav")
+                else {
+                print("bundle sound read false")
+                return
+            }
+
+            soundPlayer = try AVAudioPlayer(contentsOf: url)
             soundPlayer.delegate = self
             let ok = soundPlayer.prepareToPlay()
             print("prepare to play: \(ok)")
@@ -98,13 +106,13 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     
     func initUpdater() {
         updater = CADisplayLink(target: self, selector: #selector(trackAudio))
-        updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
+        updater.add(to: RunLoop.current, forMode: .common)
         updater.isPaused = true;
         
     }
     
     
-    func trackAudio() {
+    @objc func trackAudio() {
         let currentTime = isRecording ? Int(soundRecorder.currentTime) : (isPlaying() ? Int(soundPlayer.currentTime) : 0)
 
         print(currentTime);
@@ -140,10 +148,12 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
             recordTime.textColor = UIColor.red
             isRecording = true
             soundRecorder.record()
+            metronome.startWithMetrum(metrumBtn.metrum, tempo: 120, offsetBars: 0)
             updater.frameInterval = 20
             updater.isPaused = false
         } else {
             soundRecorder.stop()
+            metronome.stop()
             updater.isPaused = true
             isRecording = false
             showSaveSampleDialog()
@@ -219,7 +229,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     
     func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
         //handle error
-        print(error)
+        print(error!)
         updater.isPaused = true
     }
     
@@ -230,7 +240,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     
     func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
         //handle error
-        print(error)
+        print(error!)
         updater.isPaused = true
     }
     

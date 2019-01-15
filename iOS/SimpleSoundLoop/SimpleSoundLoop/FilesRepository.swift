@@ -78,7 +78,7 @@ class FilesRepository : NSObject {
         do {
             let oldPath = URL(string:"\(FilesRepository.sampleFileDirectory)\(SampleFile.sampleDefaultFileName)")
             let newPath = URL(string:"\(FilesRepository.fileDirectory)\(withFileName).\(FilesRepository.fileExt)")
-            print("old file: \(oldPath)")
+            print("old file: \(oldPath!)")
 //            print("old file exists: \(fileManager.file(oldPath))")
             
             try fileManager.copyItem(at: oldPath!, to: newPath!)
@@ -99,7 +99,7 @@ class FilesRepository : NSObject {
 //            return fileName
 //        }
 
-        var i = -1
+        var i = 0
         var template = "\(fileName)"
         
         while (files.contains(template)) {
@@ -125,7 +125,7 @@ extension FilesRepository : UITableViewDelegate, UITableViewDataSource {
         var cell = tableView.dequeueReusableCell(withIdentifier: "CELL")
         
         if cell == nil {
-            cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: "CELL")
+            cell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: "CELL")
         }
         
         // we know that cell is not empty now so we use ! to force unwrapping but you could also define cell as

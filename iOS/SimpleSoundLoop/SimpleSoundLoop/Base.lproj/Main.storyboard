@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -26,13 +25,13 @@
                                 <rect key="frame" x="16" y="47" width="288" height="237"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uoh-xv-rQC">
-                                        <rect key="frame" x="20" y="23" width="248" height="60"/>
+                                        <rect key="frame" x="20" y="58" width="248" height="60"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <slider hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="tme-Ed-5kf">
-                                        <rect key="frame" x="21" y="85" width="247" height="31"/>
+                                        <rect key="frame" x="20.5" y="120" width="247" height="31"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" notEnabled="YES"/>
                                         </accessibility>
@@ -42,7 +41,7 @@
                                         </constraints>
                                     </slider>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="23o-Lp-of7">
-                                        <rect key="frame" x="0.0" y="135" width="288" height="56"/>
+                                        <rect key="frame" x="0.0" y="170" width="288" height="56"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sw9-nw-yhM">
                                                 <rect key="frame" x="55" y="11" width="34" height="34"/>
@@ -77,17 +76,30 @@
                                             <constraint firstItem="Gok-nT-Yn7" firstAttribute="leading" secondItem="sw9-nw-yhM" secondAttribute="trailing" constant="27" id="ZLq-7B-TyP"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ojL-aJ-lgi" customClass="MetrumButton" customModule="SimpleSoundLoop" customModuleProvider="target">
+                                        <rect key="frame" x="129" y="23" width="30" height="30"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Metrum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1eM-vr-fo2">
+                                        <rect key="frame" x="122" y="0.0" width="44" height="15"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="23o-Lp-of7" firstAttribute="top" secondItem="tme-Ed-5kf" secondAttribute="bottom" constant="20" id="1sj-vz-zko"/>
-                                    <constraint firstItem="Uoh-xv-rQC" firstAttribute="top" secondItem="MUZ-Nt-zDn" secondAttribute="top" constant="23" id="8Tz-b0-olN"/>
+                                    <constraint firstItem="Uoh-xv-rQC" firstAttribute="top" secondItem="MUZ-Nt-zDn" secondAttribute="top" constant="58" id="8Tz-b0-olN"/>
                                     <constraint firstItem="23o-Lp-of7" firstAttribute="top" secondItem="Uoh-xv-rQC" secondAttribute="bottom" constant="52" id="G1U-pZ-Bj8"/>
-                                    <constraint firstItem="tme-Ed-5kf" firstAttribute="top" secondItem="MUZ-Nt-zDn" secondAttribute="top" constant="85" id="J14-Vi-ooV"/>
+                                    <constraint firstItem="tme-Ed-5kf" firstAttribute="top" secondItem="MUZ-Nt-zDn" secondAttribute="top" constant="120" id="J14-Vi-ooV"/>
                                     <constraint firstItem="Uoh-xv-rQC" firstAttribute="leading" secondItem="MUZ-Nt-zDn" secondAttribute="leading" constant="20" id="K4U-FD-h87"/>
+                                    <constraint firstItem="1eM-vr-fo2" firstAttribute="top" secondItem="MUZ-Nt-zDn" secondAttribute="top" id="Q4p-eU-LUO"/>
+                                    <constraint firstItem="ojL-aJ-lgi" firstAttribute="top" secondItem="1eM-vr-fo2" secondAttribute="bottom" constant="8" id="Rr3-H1-jbQ"/>
                                     <constraint firstAttribute="trailing" secondItem="23o-Lp-of7" secondAttribute="trailing" id="Xn2-C3-4KD"/>
                                     <constraint firstItem="23o-Lp-of7" firstAttribute="leading" secondItem="MUZ-Nt-zDn" secondAttribute="leading" id="Xut-vQ-0Yw"/>
                                     <constraint firstAttribute="height" constant="237" id="Yyo-Sz-tKs"/>
+                                    <constraint firstItem="1eM-vr-fo2" firstAttribute="centerX" secondItem="MUZ-Nt-zDn" secondAttribute="centerX" id="aAa-CV-5mC"/>
+                                    <constraint firstItem="ojL-aJ-lgi" firstAttribute="centerX" secondItem="MUZ-Nt-zDn" secondAttribute="centerX" id="f9R-JV-NOX"/>
                                     <constraint firstAttribute="trailing" secondItem="Uoh-xv-rQC" secondAttribute="trailing" constant="20" id="ppd-Of-Mm1"/>
                                     <constraint firstItem="tme-Ed-5kf" firstAttribute="centerX" secondItem="MUZ-Nt-zDn" secondAttribute="centerX" id="s32-fw-pAQ"/>
                                 </constraints>
@@ -112,6 +124,7 @@
                     <tabBarItem key="tabBarItem" title="Record" image="first" id="acW-dT-cKf" userLabel="Record"/>
                     <connections>
                         <outlet property="filesTable" destination="ruJ-Ra-bFt" id="LNF-AT-0yS"/>
+                        <outlet property="metrumBtn" destination="ojL-aJ-lgi" id="i3u-hr-96l"/>
                         <outlet property="playButton" destination="sw9-nw-yhM" id="JK4-Ca-CJy"/>
                         <outlet property="playProgress" destination="tme-Ed-5kf" id="hpQ-h7-VQg"/>
                         <outlet property="recordButton" destination="Gok-nT-Yn7" id="Zla-Yq-rk2"/>
@@ -135,14 +148,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Second View" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5">
-                                <rect key="frame" x="55" y="263" width="209.5" height="41.5"/>
+                                <rect key="frame" x="55.5" y="263.5" width="209.5" height="41.5"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loaded by SecondViewController" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NDk-cv-Gan">
-                                <rect key="frame" x="52" y="313" width="215" height="17"/>
+                                <rect key="frame" x="52.5" y="313" width="215" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>

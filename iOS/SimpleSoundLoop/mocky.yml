@@ -1,0 +1,18 @@
+sources:
+  - ./SimpleSoundLoop
+  - ./SimpleSoundLootTests
+templates:
+  - ./Pods/SwiftyMocky/Sources/Templates
+output:
+  ./SimpleSoundLop
+args:
+  testable:
+    - SimpleSoundLoop
+  import:
+    - RxSwift
+    - RxBlocking
+  excludedSwiftLintRules:
+    - force_cast
+    - function_body_length
+    - line_length
+    - vertical_whitespace

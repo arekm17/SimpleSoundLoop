@@ -1,0 +1,19 @@
+target 'SimpleSoundLoop' do
+
+  use_frameworks!
+  pod "SnapKit"
+  pod "RxSwift"
+
+  target 'SimpleSoundLoopTests' do
+    inherit! :search_paths
+   
+    pod "SwiftyMocky"
+
+  end
+
+  target 'SimpleSoundLoopUITests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
