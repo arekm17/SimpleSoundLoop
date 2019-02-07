@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
+class RecordViewController: UIViewController, AVAudioPlayerDelegate {
 
     @IBOutlet weak var recordTime: UILabel!
     @IBOutlet weak var recordButton: UIButton!
@@ -17,16 +17,18 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     @IBOutlet weak var playProgress: UISlider!
     @IBOutlet weak var filesTable: UITableView!
     @IBOutlet weak var metrumBtn: MetrumButton!
+    @IBOutlet weak var tempoLabel: UILabel!
+    @IBOutlet weak var tempoSlider: UISlider!
     
-    let recordOnImage : UIImage? = UIImage(named: "rec_button_on")
-    let recordImage : UIImage? = UIImage(named: "rec_button")
     
+//    let recordOnImage : UIImage? = UIImage(named: "rec_button_on")
+//    let recordImage : UIImage? = UIImage(named: "rec_button")
+//
 //    var isRecording = false
     
-    
-    var soundRecorder: AVAudioRecorder!
-    var soundPlayer: AVAudioPlayer!
-    var updater : CADisplayLink!
+    let recorder: AudioRecorder = AudioRecorderImpl()
+    let player: AudioPlayer = AudioPlayerImpl()
+
     var isRecording : Bool = false
     var filesRepository : FilesRepository = FilesRepository()
     private var metronome: Metronome = MetronomeImpl()
@@ -36,8 +38,12 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
         
         initViews();
         
-        setupRecorder()
-        initUpdater();
+        recorder.delegate = self
+//        recorder.setup()
+        recorder.metronome = metronome
+
+        player.setup()
+        player.delegate = self
         
         initList()
         
@@ -53,82 +59,17 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
         playButton.isHidden = false
 //        playButton.setImage(UIImage(named: "rec_button_on_selected"), forState: .Selected)
         
+        filesRepository.delegate = self
         filesRepository.setTableView(tableView: filesTable)
 
-        
-    }
-    
-    func setupRecorder() {
-        
-        let recordSettings = [
-            AVFormatIDKey: NSNumber(value: Int32(kAudioFormatAppleLossless) as Int32),
-            AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue,
-            AVEncoderBitRateKey : 320000,
-            AVNumberOfChannelsKey: 2,
-            AVSampleRateKey : 44100.0
-        ] as [String : Any]
-        
-        do {
-            let session = AVAudioSession.sharedInstance()
-            try! session.setCategory(.playback, mode: .default)
-            soundRecorder = try AVAudioRecorder(url: SampleFile.getFileURL() as URL, settings: recordSettings)
-            soundRecorder.delegate = self
-            soundRecorder.prepareToRecord()
-
-        } catch {
-//            print("AVAudioRecorder error: \(err.localizedDescription)")
-            print("exception")
-        }
-    }
-    
-    func setupPlayer() {
-        
-        do {
-            
-//            soundPlayer = try AVAudioPlayer(contentsOf: SampleFile.getFileURL() as URL)
-            guard let url = Bundle.main.url(forResource: "sample", withExtension: "wav")
-                else {
-                print("bundle sound read false")
-                return
-            }
-
-            soundPlayer = try AVAudioPlayer(contentsOf: url)
-            soundPlayer.delegate = self
-            let ok = soundPlayer.prepareToPlay()
-            print("prepare to play: \(ok)")
-            soundPlayer.volume = 1.0
-            soundPlayer.numberOfLoops = -1
-        } catch  {
-//            println(“AVAudioPlayer error: \(err.localizedDescription)“)
-            print("exception")
-        }
-    }
-    
-    func initUpdater() {
-        updater = CADisplayLink(target: self, selector: #selector(trackAudio))
-        updater.add(to: RunLoop.current, forMode: .common)
-        updater.isPaused = true;
-        
+//
+//        recordButton.setImage(recordOnImage, for: .normal)//.setImage(recordOnImage, forState: .Normal)
+//        recordButton.setImage(recordImage, for: .selected)
     }
     
     
-    @objc func trackAudio() {
-        let currentTime = isRecording ? Int(soundRecorder.currentTime) : (isPlaying() ? Int(soundPlayer.currentTime) : 0)
-
-        print(currentTime);
-        
-        let minutes = currentTime / 60;
-        let seconds = currentTime % 60;
-        
-        recordTime.text = String.init(format: "%d:%02d", minutes, seconds);
-        if !isRecording {
-            let normalizedTime = Float(soundPlayer.currentTime * 100.0 / soundPlayer.duration)
-            playProgress.value = normalizedTime
-        }
-        
-    }
-
-
+    
+    
     @IBAction func onRecordStart(_ sender: AnyObject) {
         
 //        if !isRecording {
@@ -138,30 +79,43 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
 //            recordButton.setImage(recordImage, forState: .Normal)
 //        }
         
-        startRecord()
+        metronome.metrum = metrumBtn.metrum
+        metronome.tempo = getTempo()
+
+        if !recordButton.isSelected {
+            recordTime.text = "0:00"
+            recorder.startRecord()
+            recordButton.isSelected = true
+        } else {
+            recorder.stopRecord()
+            recordButton.isSelected = false
+        }
         
+//        recordButton.isSelected = !recordButton.isSelected
     }
     
-    func startRecord() {
-        
-        if !isRecording {
-            recordTime.textColor = UIColor.red
-            isRecording = true
-            soundRecorder.record()
-            metronome.startWithMetrum(metrumBtn.metrum, tempo: 120, offsetBars: 0)
-            updater.frameInterval = 20
-            updater.isPaused = false
-        } else {
-            soundRecorder.stop()
-            metronome.stop()
-            updater.isPaused = true
-            isRecording = false
-            showSaveSampleDialog()
-        }
-        recordButton.isSelected = isRecording
-        playButton.isHidden = isRecording
-        playProgress.isHidden = isRecording
-    }
+//    func startRecord() {
+//        
+//        if !isRecording {
+//            recordTime.textColor = UIColor.red
+//            isRecording = true
+//            soundRecorder.record()
+//            if metrumBtn.metrum != .none {
+//                metronome.startWithMetrum(metrumBtn.metrum, tempo: getTempo(), offsetBars: 0)
+//            }
+//            updater.frameInterval = 20
+//            updater.isPaused = false
+//        } else {
+//            soundRecorder.stop()
+//            metronome.stop()
+//            updater.isPaused = true
+//            isRecording = false
+//            showSaveSampleDialog()
+//        }
+//        recordButton.isSelected = isRecording
+//        playButton.isHidden = isRecording
+//        playProgress.isHidden = isRecording
+//    }
     
     func showSaveSampleDialog() {
         let alert = UIAlertController(title: nil, message: "Zapisać nagranie?", preferredStyle: .alert)
@@ -191,61 +145,107 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate, AVAudioPl
     
     @IBAction func onPlay(_ sender: AnyObject) {
         if !isRecording {
-            setupPlayer()
             playSample()
         }
     }
 
-    func playSample() {
+    func playSample(_ url: URL = SampleFile.getFileURL()) {
         playButton.isSelected = !playButton.isSelected
         playProgress.isHidden = false
         
         if isPlaying() {
-            soundPlayer.play()
-            updater.frameInterval = 1
-            updater.isPaused = false
+            player.play(url)
         }
         else {
-            soundPlayer.stop()
-            updater.isPaused = true
+            player.stop()
         }
         recordButton.isHidden = isPlaying()
+    }
+    
+    func playFile(_ url: URL) {
+        if !isRecording {
+            playSample(url)
+        }
+
     }
     
     func isPlaying() -> Bool {
         return playButton.isSelected
     }
     
-    //Mark audio delegates
-    
-    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-        recordTime.textColor = UIColor.black
-        recordTime.text = "0:00"
-        playProgress.value = 0
-        playProgress.isHidden = false
-        playButton.isHidden = false;
-        updater.isPaused = true
-    }
-    
-    func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
-        //handle error
-        print(error!)
-        updater.isPaused = true
-    }
-    
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        recordTime.text = "0:00";
-        updater.isPaused = true
-    }
-    
-    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
-        //handle error
-        print(error!)
-        updater.isPaused = true
-    }
-    
-    
     
 }
 
 
+extension RecordViewController {
+    @IBAction func onTempoChanged(_ sender: Any) {
+        
+        self.tempoLabel.text = String(getTempo())
+        
+    }
+    
+    fileprivate func getTempo() -> Int {
+        return Int(tempoSlider.value)
+    }
+}
+
+extension RecordViewController: FilesRepositoryDelegate {
+    func onSelectFile(_ url: URL) {
+        playFile(url)
+    }
+}
+
+
+extension RecordViewController: AudioRecorderDelegate {
+    
+    func onRecordStarted() {
+        recordButton.isSelected = true
+        playButton.isHidden = true
+        playProgress.isHidden = true
+    }
+    
+    func onRecordStopped() {        
+        recordButton.isSelected = false
+        playButton.isHidden = false
+        playProgress.isHidden = false
+        showSaveSampleDialog()
+    }
+    
+    func onRecordFinished() {
+        recordTime.textColor = UIColor.black
+        recordTime.text = "0:00"
+        playProgress.value = 0
+        playProgress.isHidden = false
+        playButton.isHidden = false
+    }
+    
+    func onRecordError() {
+        //handle error
+        recordTime.text = "error"
+    }
+    
+    func recordTimeProgress(seconds: Int) {
+        let min = seconds / 60
+        let sec = seconds % 60
+        recordTime.text = String.init(format: "%d:%02d", min, sec);
+    }
+}
+
+extension RecordViewController: AudioPlayerDelegate {
+    func onPlayingFinished() {
+        recordTime.text = "0:00";
+    }
+    
+    func onPlayingError() {
+        
+    }
+    
+    func playingTimeProgress(seconds: Int, percent: Float) {
+        let min = seconds / 60
+        let sec = seconds % 60
+
+        recordTime.text = String.init(format: "%d:%02d", min, sec);
+        playProgress.value = percent
+
+    }
+}

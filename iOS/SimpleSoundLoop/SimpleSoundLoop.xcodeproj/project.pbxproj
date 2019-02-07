@@ -10,6 +10,7 @@
 		2E754444CD47D3253CA55FB7 /* Pods_SimpleSoundLoopTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B2694CC946FE5E5A366ADB4 /* Pods_SimpleSoundLoopTests.framework */; };
 		37028B951E4E683E00928472 /* FilesRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37028B941E4E683E00928472 /* FilesRepositoryTests.swift */; };
 		37028B991E4E6B3F00928472 /* MockFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37028B981E4E6B3F00928472 /* MockFileManager.swift */; };
+		3763C7D8220CCA1900BC364D /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3763C7D7220CCA1900BC364D /* AudioPlayer.swift */; };
 		37681AFA21EE516100618E22 /* sample.wav in Resources */ = {isa = PBXBuildFile; fileRef = 37681AF921EE516100618E22 /* sample.wav */; };
 		37681AFD21EE541200618E22 /* MetrumButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37681AFC21EE541200618E22 /* MetrumButton.swift */; };
 		37681B0121EE549500618E22 /* Metrum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37681B0021EE549500618E22 /* Metrum.swift */; };
@@ -52,6 +53,7 @@
 		2C20AA600C16F56067B8A360 /* Pods-SimpleSoundLoopUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleSoundLoopUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SimpleSoundLoopUITests/Pods-SimpleSoundLoopUITests.release.xcconfig"; sourceTree = "<group>"; };
 		37028B941E4E683E00928472 /* FilesRepositoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilesRepositoryTests.swift; path = SampleFile/FilesRepositoryTests.swift; sourceTree = "<group>"; };
 		37028B981E4E6B3F00928472 /* MockFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockFileManager.swift; path = Mocks/MockFileManager.swift; sourceTree = "<group>"; };
+		3763C7D7220CCA1900BC364D /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		37681AF921EE516100618E22 /* sample.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = sample.wav; path = Assets/sample.wav; sourceTree = "<group>"; };
 		37681AFC21EE541200618E22 /* MetrumButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetrumButton.swift; sourceTree = "<group>"; };
 		37681B0021EE549500618E22 /* Metrum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metrum.swift; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 			children = (
 				37D10B5E1D6E2D28003BFDF2 /* AudioRecorder.swift */,
 				37681B0421EE62EB00618E22 /* Metronome.swift */,
+				3763C7D7220CCA1900BC364D /* AudioPlayer.swift */,
 			);
 			name = Audio;
 			sourceTree = "<group>";
@@ -550,6 +553,7 @@
 			files = (
 				37681B0521EE62EB00618E22 /* Metronome.swift in Sources */,
 				37D10B1E1D6D5E30003BFDF2 /* PlayViewController.swift in Sources */,
+				3763C7D8220CCA1900BC364D /* AudioPlayer.swift in Sources */,
 				37681B0121EE549500618E22 /* Metrum.swift in Sources */,
 				3799BBD61E4BBD040008EEBC /* FilesRepository.swift in Sources */,
 				37681B0321EE587300618E22 /* PickerViewController.swift in Sources */,

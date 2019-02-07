@@ -9,6 +9,9 @@
 import Foundation
 import UIKit
 
+protocol FilesRepositoryDelegate: class {
+    func onSelectFile(_ url: URL)
+}
 
 class FilesRepository : NSObject {
     
@@ -19,6 +22,8 @@ class FilesRepository : NSObject {
 
     private var fileManager : FileManager!
 
+    weak var delegate: FilesRepositoryDelegate?
+    
     var files : [String] = [String]()
     var tableView : UITableView?;
     
@@ -135,6 +140,10 @@ extension FilesRepository : UITableViewDelegate, UITableViewDataSource {
 //        cell!.detailTextLabel?.text = "1/2 cup"
         
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.onSelectFile(URL(string:"\(FilesRepository.fileDirectory)\(files[indexPath.row]).\(FilesRepository.fileExt)")!)
     }
     
 }
